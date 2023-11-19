@@ -14,7 +14,6 @@ public interface IGroupeService {
 
     List<Groupe> getGroupByModule(Long id);
 
-    String deleteGroup(Long id);
 
     Page<Groupe> getGroups(Pageable pageable);
 

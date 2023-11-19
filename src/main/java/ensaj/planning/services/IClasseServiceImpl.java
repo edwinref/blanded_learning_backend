@@ -1,5 +1,7 @@
 package ensaj.planning.services;
 
+import ensaj.planning.entities.Groupe;
+import ensaj.planning.entities.Module;
 import ensaj.planning.repository.ClasseRepository;
 import ensaj.planning.repository.FiliereRepository;
 import lombok.AllArgsConstructor;
@@ -9,6 +11,7 @@ import org.springframework.stereotype.Service;
 import ensaj.planning.entities.Classe;
 import ensaj.planning.entities.Filiere;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service

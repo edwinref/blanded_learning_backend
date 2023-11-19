@@ -2,6 +2,7 @@ package ensaj.planning.web;
 
 import ensaj.planning.entities.Classe;
 import ensaj.planning.entities.Filiere;
+import ensaj.planning.entities.Groupe;
 import ensaj.planning.services.IClasseService;
 import ensaj.planning.services.IFiliereService;
 import lombok.AllArgsConstructor;
@@ -98,4 +99,9 @@ public class ClasseController {
         Pageable pageable = PageRequest.of(page, size);
         return classeService.searchClasses(keyword,sem, pageable);
     }
+    @GetMapping("/filere/{filiereId}")
+    public List<Classe> getClassesByFiliere(@PathVariable Long filiereId) {
+        return classeService.getClasseByFiliere(filiereId);
+    }
+
 }

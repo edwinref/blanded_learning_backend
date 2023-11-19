@@ -31,7 +31,15 @@ public class GroupeController {
         System.out.println(groupe);
 
         // Retrieve the Classe entity from the database
-        Classe existingClasse = entityManager.find(Classe.class, groupe.getClasse().getId());
+        Long classeId = groupe.getClasse().getId();
+        System.out.println(classeId);
+
+        if (classeId == null) {
+            // Handle the situation where the Classe ID is null
+            // or throw an exception, depending on your requirements.
+        }
+
+        Classe existingClasse = entityManager.find(Classe.class, classeId);
 
         // Make sure the Classe entity is in the persistent state
         if (existingClasse == null) {
@@ -44,6 +52,7 @@ public class GroupeController {
 
         return iGroupeService.save(groupe);
     }
+
 
 
     @GetMapping("/{id}")

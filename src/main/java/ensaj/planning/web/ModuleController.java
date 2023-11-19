@@ -3,6 +3,7 @@ package ensaj.planning.web;
 import ensaj.planning.entities.Module;
 import ensaj.planning.services.IClasseService;
 import ensaj.planning.services.IEnseignantService;
+import ensaj.planning.services.IFiliereService;
 import ensaj.planning.services.IModuleService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -19,6 +20,7 @@ public class ModuleController {
     private final IModuleService moduleService;
     private final IClasseService iClasseService;
     private final IEnseignantService iEnseignantService;
+    private final IFiliereService iFiliereService;
 
 
 
@@ -43,12 +45,19 @@ public class ModuleController {
     }
 
     @PostMapping
-    public Module createModule(@RequestBody Module module,@RequestParam Long classeId) {
-        return moduleService.addModule(module,classeId);
+    public Module createModule(@RequestBody Module module, @RequestParam Long classeId, @RequestParam Long filiereId) {
+        return moduleService.addModule(module, classeId, filiereId);
     }
 
+    @GetMapping("/classe/{id}")
+    public List<Module> getModuleByClasse(@PathVariable Long id) {
+        return moduleService.getModuleByClasse(id);
+    }
+
+
+
     @PutMapping("/{id}")
-    public Module updateModule(@PathVariable Long id, @RequestBody Module updatedModule, @RequestParam Long classeId) {
+    public Module updateModule(@PathVariable Long id, @RequestBody Module updatedModule, @RequestParam Long classeId,@RequestParam Long filiereId) {
         Module existingModule = moduleService.getModuleById(id);
 
         if (existingModule != null) {
@@ -61,6 +70,7 @@ public class ModuleController {
             existingModule.setSeperated(updatedModule.isSeperated());
             existingModule.setMetuale(updatedModule.isMetuale());
             existingModule.setClasse(iClasseService.getClasseById(classeId));
+            existingModule.setFiliere(iFiliereService.getFiliereById(filiereId));
 
             return moduleService.updateModule(id,existingModule);
         } else {

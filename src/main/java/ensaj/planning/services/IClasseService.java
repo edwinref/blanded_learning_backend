@@ -1,5 +1,6 @@
 package ensaj.planning.services;
 
+import ensaj.planning.entities.Groupe;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import ensaj.planning.entities.Classe;

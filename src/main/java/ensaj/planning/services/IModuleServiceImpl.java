@@ -1,6 +1,8 @@
 package ensaj.planning.services;
 
+import ensaj.planning.entities.Filiere;
 import ensaj.planning.repository.ClasseRepository;
+import ensaj.planning.repository.FiliereRepository;
 import ensaj.planning.repository.ModuleRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -15,6 +17,8 @@ import java.util.List;
 public class IModuleServiceImpl implements IModuleService {
     private ModuleRepository moduleRepository;
     private ClasseRepository classeRepository;
+    private FiliereRepository filiereRepository;
+
 
 
 
@@ -24,9 +28,17 @@ public class IModuleServiceImpl implements IModuleService {
     }
 
     @Override
-    public Module addModule(Module module, Long classeId) {
+    public List<Module> getModuleByClasse(Long id) {
+        return moduleRepository.getModulesByClasse(id);
+    }
+
+    @Override
+    public Module addModule(Module module, Long classeId,Long filiereId) {
         Classe classe= classeRepository.findById(classeId).orElse(null);
+        Filiere filiere = filiereRepository.findById(filiereId).orElse(null);
         module.setClasse(classe);
+        module.setFiliere(filiere   );
+
         return moduleRepository.save(module);
     }
 

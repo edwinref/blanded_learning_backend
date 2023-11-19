@@ -27,4 +27,8 @@ public class Module {
     private Classe classe;
     @ManyToOne
     private Enseignant enseignant;
+    @ManyToOne
+    private Filiere filiere;
+    private String semestre;
+
 }
