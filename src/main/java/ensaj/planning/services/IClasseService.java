@@ -19,4 +19,6 @@ public interface IClasseService {
     Page<Classe> getClasses(Pageable pageable);
     Page<Classe> searchClasses(String keyword, Pageable pageable);
     Page<Classe> searchClasses(String keyword,Long sem, Pageable pageable);
+
+    List<Classe> getClasseByFiliere(Long id);
 }

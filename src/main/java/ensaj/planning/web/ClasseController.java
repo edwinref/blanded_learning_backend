@@ -35,6 +35,11 @@ public class ClasseController {
         return classeService.getClasses();
     }
 
+    @GetMapping("/filiere/{id}")
+    public List<Classe> getclasseByFiliere(@PathVariable Long id){
+        return classeService.getClasseByFiliere(id);
+    }
+
     @GetMapping("/{id}")
     public Classe getClasseById(@PathVariable Long id) {
         return classeService.getClasseById(id);
