@@ -19,8 +19,7 @@ public class EnsajPlanning {
                                 ClasseRepository classeRepository,
                                 SemestreRepository semestreRepository,
                                 SalleRepository salleRepository,
-                                FiliereRepository filiereRepository, ModuleRepository moduleRepository,
-                                NonDisponibiliteRepository nonDisponibiliteRepository) {
+                                FiliereRepository filiereRepository, ModuleRepository moduleRepository) {
         return args -> {
             // Create the Admin
             Admin admin = new Admin();
