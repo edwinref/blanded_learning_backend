@@ -21,8 +21,7 @@ public class Module {
     private int nbrTP;
     private int nbrEvaluation;
     private String libelle;
-    private boolean isSeperated;
-    private boolean isMetuale;
+
     @ManyToOne
     private Classe classe;
     @ManyToOne

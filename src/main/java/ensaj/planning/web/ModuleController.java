@@ -67,8 +67,7 @@ public class ModuleController {
             existingModule.setNbrTP(updatedModule.getNbrTP());
             existingModule.setNbrEvaluation(updatedModule.getNbrEvaluation());
             existingModule.setLibelle(updatedModule.getLibelle());
-            existingModule.setSeperated(updatedModule.isSeperated());
-            existingModule.setMetuale(updatedModule.isMetuale());
+
             existingModule.setClasse(iClasseService.getClasseById(classeId));
             existingModule.setFiliere(iFiliereService.getFiliereById(filiereId));
 

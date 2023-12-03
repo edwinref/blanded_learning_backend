@@ -18,9 +18,6 @@ import java.util.Collection;
 @DiscriminatorValue("PROF")
 public class Enseignant extends Person {
     private String specialite;
-    @ToString.Exclude
-    @OneToMany(mappedBy = "enseignant", fetch = FetchType.EAGER)
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-    private Collection<NonDisponibilite> nonDisponibilites = new ArrayList<>();
+
 
 }

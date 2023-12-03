@@ -19,8 +19,6 @@ import java.util.Collection;
 public class Admin extends Person {
     @Enumerated(EnumType.STRING)
     private TypeAdmin admin_type;
-    @OneToMany(mappedBy = "enseignant", fetch = FetchType.EAGER)
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-    private Collection<NonDisponibilite> nonDisponibilites = new ArrayList<>();
-   
+
+
 }
