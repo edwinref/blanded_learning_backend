@@ -8,6 +8,7 @@ import java.util.List;
 
 public interface IEtudiantService {
 
+    Etudiant save(Etudiant etudiant);
     Etudiant addEtudiant(Etudiant etudiant, Long classeId);
 
     List<Etudiant> searchEtudiant(Long idClasse);

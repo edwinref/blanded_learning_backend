@@ -44,6 +44,11 @@ public class EtudiantController {
         return iEtudiantService.addEtudiant(etudiant,classeId);
     }
 
+    @PostMapping("/save")
+    public Etudiant createEtudiant1(@RequestBody Etudiant etudiant) {
+        return iEtudiantService.save(etudiant);
+    }
+
     @GetMapping("/{id}")
     public List<Etudiant> getEtudByclass(@PathVariable Long id) {
         return iEtudiantService.searchEtudiant(id);

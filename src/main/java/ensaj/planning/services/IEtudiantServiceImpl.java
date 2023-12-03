@@ -29,6 +29,11 @@ public class IEtudiantServiceImpl implements IEtudiantService {
     }
 
     @Override
+    public Etudiant save(Etudiant etudiant) {
+        return userRepository.save(etudiant);
+    }
+
+    @Override
     @Transactional
     public Etudiant addEtudiant(Etudiant etudiant, Long groupeId) {
         Groupe groupe = groupeRepository.findById(groupeId).orElse(null);
