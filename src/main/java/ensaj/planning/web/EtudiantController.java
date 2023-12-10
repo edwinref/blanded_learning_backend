@@ -1,11 +1,14 @@
 package ensaj.planning.web;
 
+import ensaj.planning.entities.CustomEtudiantCriteriaResult;
 import ensaj.planning.services.IEtudiantService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.web.bind.annotation.*;
 import ensaj.planning.entities.Etudiant;
 
@@ -19,7 +22,8 @@ public class EtudiantController {
 
     @Autowired
     IEtudiantService iEtudiantService;
-
+    @Autowired
+    private JdbcTemplate jdbcTemplate;
     @GetMapping
     public Page<Etudiant> getAllEtudiants(
             @RequestParam(defaultValue = "0") int page,
@@ -68,5 +72,15 @@ public class EtudiantController {
     ) {
         Pageable pageable = PageRequest.of(page, size);
         return iEtudiantService.searchEtudiants(keyword, pageable);
+    }
+    @GetMapping("/customQuery")
+    public List<CustomEtudiantCriteriaResult> getCustomEtudiantCriteria() {
+        String sql = "SELECT p.id, p.civilite, p.cne, p.email, p.login, p.nom, p.password, p.prenom, p.tel, p.classe_id, c.id AS criteria_id, c.preference, c.equipment, c.learning_space, c.infrastructure FROM person p LEFT JOIN criteria c ON p.id = c.etudiant_id WHERE p.role = 'Etudiant';";
+        List<CustomEtudiantCriteriaResult> results = jdbcTemplate.query(sql, BeanPropertyRowMapper.newInstance(CustomEtudiantCriteriaResult.class));
+
+        // Transform the values before returning the result
+        results.forEach(CustomEtudiantCriteriaResult::transformValues);
+
+        return results;
     }
 }

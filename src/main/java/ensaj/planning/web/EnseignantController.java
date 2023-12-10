@@ -1,12 +1,16 @@
 package ensaj.planning.web;
 
+import ensaj.planning.entities.CustomEnseignatModuleResult;
 import ensaj.planning.entities.Enseignant;
 import ensaj.planning.services.IEnseignantService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -19,7 +23,8 @@ import java.util.List;
 public class EnseignantController {
 
     private final IEnseignantService enseignantService;
-
+    @Autowired
+    private JdbcTemplate jdbcTemplate;
 
     @GetMapping
     public Page<Enseignant> getAllEnseignants(
@@ -62,5 +67,12 @@ public class EnseignantController {
     ) {
         Pageable pageable = PageRequest.of(page, size);
         return enseignantService.searchEnseignants(keyword, pageable);
+    }
+    @GetMapping("/customQuery")
+    public List<CustomEnseignatModuleResult> getCustomEtudiantCriteria() {
+        String sql = "SELECT p.id , p.nom , p.prenom , p.specialite , m.libelle , m.volume_horaire_onsite, m.volume_horaire_on_remote , m.semestre , m.mode  FROM person p JOIN module m ON p.id = m.enseignant_id WHERE p.role = 'PROF'; ";
+        List<CustomEnseignatModuleResult> results = jdbcTemplate.query(sql, BeanPropertyRowMapper.newInstance(CustomEnseignatModuleResult.class));
+
+        return results;
     }
 }
