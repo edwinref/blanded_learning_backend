@@ -10,6 +10,9 @@ public interface IModuleService {
 
     List<Module> getModuleByClasse(Long id);
 
+    //reda type module
+    String getTypeModule(Long id, Long idGroupe);
+
     Module addModule(Module module,Long classeId,Long filiereId);
 
     String deleteModule(Long id);

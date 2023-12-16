@@ -29,5 +29,6 @@ public class Module {
     @ManyToOne
     private Filiere filiere;
     private String semestre;
+    private boolean edited;
 
 }
