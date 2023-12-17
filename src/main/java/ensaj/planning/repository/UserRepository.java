@@ -27,6 +27,9 @@ public interface UserRepository extends JpaRepository<Person, Long> {
     @Query("SELECT u FROM Person u WHERE u.Role = ?1")
     List<Enseignant> findAllByRole(String role);
 
+    @Query("select e from Etudiant e where e.groupe.id = ?1")
+    List<Etudiant> findAllByGroupe(Long id);
+
     @Query("SELECT u FROM Person u WHERE u.Role = ?1")
     List<Etudiant> findAllByRoleEtudiant(String role);
     @Query("SELECT u FROM Person u WHERE u.Role = 'PROF' AND (u.nom LIKE %?1% OR u.prenom LIKE %?1%)")

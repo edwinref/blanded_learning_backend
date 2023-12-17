@@ -54,6 +54,13 @@ public class ModuleController {
         return moduleService.getModuleByClasse(id);
     }
 
+    //redaaaa type module
+//    @GetMapping("/type")
+//    public String getEtuds(@RequestParam(name = "id") Long param1,
+//                           @RequestParam(name = "idg") Long param2){
+//        System.out.println(moduleService.getTypeModule(param1,param2));
+//        return null;
+//    }
 
 
     @PutMapping("/{id}")
