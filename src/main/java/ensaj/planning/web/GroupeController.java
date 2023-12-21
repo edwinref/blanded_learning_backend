@@ -74,6 +74,7 @@ public class GroupeController {
         return iGroupeService.getGroups(pageable);
     }
 
+
     @GetMapping("/search")
     public Page<Groupe> searchGroup(
             @RequestParam String keyword,
