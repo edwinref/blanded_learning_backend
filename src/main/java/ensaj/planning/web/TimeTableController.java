@@ -198,7 +198,7 @@ public class TimeTableController {
                                 System.out.println(date);
 
                                 TimeSlotClasse timeSlotClasse = new TimeSlotClasse();
-                                timeSlotClasse.setTimeslot(date+ "T" + timeslot.getStartTime()+":00");
+                                //timeSlotClasse.setTimeslot(date+ "T" + timeslot.getStartTime()+":00");
                                 timeSlotClasse.setSalle(salle.toString());
                                 timeSlotClasse.setModule(module);
                                 iTimeSlotClasseService.addTimeSlotClasse(timeSlotClasse);
