@@ -2,6 +2,8 @@ package ensaj.planning.algorithm;
 
 import ensaj.planning.entities.*;
 import ensaj.planning.entities.Module;
+import ensaj.planning.services.IEtudiantService;
+import ensaj.planning.services.IModuleService;
 import ensaj.planning.services.ISessionServiceImpl;
 import ensaj.planning.web.ModuleController;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,12 +15,18 @@ import java.util.List;
 
 public class Algorithm {
     private final ModuleController moduleController;
+
+    private final IModuleService iModuleService;
     private final ISessionServiceImpl sessionService;
 
+    private final IEtudiantService iEtudiantService;
+
     @Autowired
-    public Algorithm(ModuleController moduleController, ISessionServiceImpl sessionService) {
+    public Algorithm(ModuleController moduleController, IModuleService iModuleService, ISessionServiceImpl sessionService, IEtudiantService iEtudiantService) {
         this.moduleController = moduleController;
+        this.iModuleService = iModuleService;
         this.sessionService = sessionService;
+        this.iEtudiantService = iEtudiantService;
     }
     public void saveSessionData(Long studentId, Long courseId, Long professorId, String sessionMode) {
         Session session = new Session();
@@ -43,8 +51,9 @@ public class Algorithm {
 
     public  void checkConstraints(CustomEnseignatModuleResult professor, CustomEtudiantCriteriaResult student) {
         boolean isTeaching = false;
+        Etudiant etud = iEtudiantService.getEtudById(student.getId());
 
-        List<Module> modules = moduleController.getAllModules();
+        List<Module> modules = iModuleService.getModuleByClasse(etud.getClasse().getId());
         for (Module course : modules) {
 
             if (professor.isTeachingCourse(course.getLibelle())) {
