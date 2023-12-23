@@ -16,21 +16,13 @@
     <properties>
         <java.version>17</java.version>
     </properties>
-
     <dependencyManagement>
         <dependencies>
             <dependency>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-dependencies</artifactId>
-                <version>${version.org.springframework.boot}</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
-            <dependency>
                 <groupId>org.optaplanner</groupId>
                 <artifactId>optaplanner-bom</artifactId>
-                <version>${version.org.optaplanner}</version>
                 <type>pom</type>
+                <version>8.44.0.Final</version>
                 <scope>import</scope>
             </dependency>
         </dependencies>
@@ -134,22 +126,16 @@
             <artifactId>optaplanner-core</artifactId>
         </dependency>
         <dependency>
-            <groupId>ch.qos.logback</groupId>
-            <artifactId>logback-classic</artifactId>
-            <scope>runtime</scope>
-        </dependency>
-
-        <!-- Testing -->
-        <dependency>
             <groupId>org.optaplanner</groupId>
             <artifactId>optaplanner-test</artifactId>
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-api</artifactId>
-            <version>1.7.32</version> <!-- Replace with the latest version -->
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-classic</artifactId>
+            <scope>runtime</scope>
         </dependency>
+
 
 
     </dependencies>

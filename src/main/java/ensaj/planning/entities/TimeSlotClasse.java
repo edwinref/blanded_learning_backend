@@ -16,9 +16,9 @@ public class TimeSlotClasse {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-
-    private String timeslot;
-
+    private String day;
+    private String startTime;
+    private String endTime;
     @ManyToOne
     @JoinColumn(name = "module_id")
     private Module module;
