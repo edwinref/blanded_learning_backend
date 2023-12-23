@@ -7,6 +7,8 @@ import ensaj.planning.repository.SessionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class ISessionServiceImpl implements ISession{
 
@@ -16,6 +18,11 @@ public class ISessionServiceImpl implements ISession{
     @Override
     public Session save(Session session) {
         return sessionRepository.save(session);
+    }
+
+    @Override
+    public List<Session> getByStudent(Long id) {
+        return sessionRepository.getSessionsByStudent(id);
     }
 
 

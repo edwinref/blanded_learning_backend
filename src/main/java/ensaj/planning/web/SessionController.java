@@ -9,6 +9,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @Slf4j
 @CrossOrigin("*")
 @RestController
@@ -22,5 +24,11 @@ public class SessionController {
     @PostMapping()
     Session save(@RequestBody Session session){
         return iSession.save(session);
+    }
+
+    @GetMapping("/{id}")
+    List<Session> getByStudent(@PathVariable Long id){
+        System.out.println(iSession.getByStudent(id).size());
+        return iSession.getByStudent(id);
     }
 }
