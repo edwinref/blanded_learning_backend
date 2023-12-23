@@ -265,25 +265,46 @@ public class TimeTableGeneratorController {
             Classe classe = module.getClasse();
 
             if (timeslot != null && salle != null && enseignant != null && classe != null) {
+                int totalSessions = module.getVolumeHoraireOnRemote()+module.getVolumeHoraireOnsite()+
+                        module.getNbrTP()+module.getNbrTD()+module.getNbrEvaluation();
                 String dayOfWeek = timeslot.getDayOfWeek().toString();
-                List<String> dates = generateDatesForDayOfWeek(dayOfWeek);
-
+                List<String> dates = generateDatesForDayOfWeek(dayOfWeek,totalSessions);
+                boolean t = false;
+                int inc = 0;
                 for (String formattedDate : dates) {
                     TimeSlotClasse timeSlotClasse = new TimeSlotClasse();
-                    timeSlotClasse.setDay(formattedDate+"T"+timeslot.getStartTime().toString() + ":00");
+                    timeSlotClasse.setDay(formattedDate + "T" + timeslot.getStartTime().toString() + ":00");
                     timeSlotClasse.setStartTime(timeslot.getStartTime().toString() + ":00");
                     timeSlotClasse.setEndTime(timeslot.getEndTime().toString() + ":00");
                     timeSlotClasse.setModule(module);
                     timeSlotClasse.setSalle(salle.toString());
+                    if(t){
+                        if(inc >= module.getNbrTP()+module.getNbrTD()){
+                            timeSlotClasse.setColor("#F9F3CC");
+                        }else {
+                            timeSlotClasse.setColor("#8EACCD");
+                        }
+                        inc++;
+                    }
                     iTimeSlotClasseService.addTimeSlotClasse(timeSlotClasse);
                     System.out.print("Data saved for date: " + formattedDate);
+                    // Decrease the total number of sessions until it reaches 0
+                    t = !t;
+                    if(inc == module.getNbrTP()+module.getNbrTD()+module.getNbrEvaluation()){
+                        t = false;
+                    }
+
+                    if (totalSessions== 0) {
+                        break; // Break the loop if the total sessions are exhausted
+                    }
                 }
             }
         }
     }
 
-
-    public List<String> generateDatesForDayOfWeek(String dayOfWeek) {
+    public List<String> generateDatesForDayOfWeek(String dayOfWeek, int totalSessions) {
+        System.out.println("-----------------------");
+        System.out.println(totalSessions);
         List<String> dates = new ArrayList<>();
 
         // Define the start and end dates (September 1, 2023 to December 31, 2023)
@@ -295,6 +316,11 @@ public class TimeTableGeneratorController {
             if (date.getDayOfWeek() == DayOfWeek.valueOf(dayOfWeek)) {
                 String formattedDate = date.format(DateTimeFormatter.ISO_LOCAL_DATE);
                 dates.add(formattedDate);
+
+                // Break the loop if the total sessions are exhausted
+                if (dates.size() == totalSessions) {
+                    break;
+                }
             }
         }
 
