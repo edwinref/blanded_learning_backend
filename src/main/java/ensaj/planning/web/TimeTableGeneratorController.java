@@ -262,6 +262,7 @@ public class TimeTableGeneratorController {
 
     private void saveResult(TimeTable timeTable, String option) {
         List<Module> moduleList = timeTable.getModuleList();
+        System.out.println("S"+option);
 
         moduleList = moduleList.stream()
                 .filter(module -> module.getSemestre().equals("S"+option))
@@ -340,8 +341,9 @@ public class TimeTableGeneratorController {
         List<String> dates = new ArrayList<>();
         LocalDate startDate = LocalDate.of(2023, 9, 1);
         LocalDate endDate = LocalDate.of(2023, 12, 31);
+        System.out.println(option);
 
-        if(option.equals('1')) {
+        if(option.equals("1")) {
             // Define the start and end dates (September 1, 2023 to December 31, 2023)
             startDate = LocalDate.of(2023, 9, 1);
             endDate = LocalDate.of(2023, 12, 31);
