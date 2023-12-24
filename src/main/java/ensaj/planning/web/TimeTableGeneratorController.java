@@ -2,6 +2,7 @@ package ensaj.planning.web;
 
 import ensaj.planning.entities.*;
 import ensaj.planning.entities.Module;
+import ensaj.planning.repository.TimeSlotClasseRepository;
 import ensaj.planning.services.IModuleService;
 import ensaj.planning.services.ISalleService;
 import ensaj.planning.services.ITimeSlotClasseService;
@@ -28,6 +29,9 @@ public class TimeTableGeneratorController {
     @Autowired
     ITimeSlotClasseService iTimeSlotClasseService;
 
+    @Autowired
+    TimeSlotClasseRepository timeSlotClasseRepository;
+
     private final ISalleService iSalleService;
 
     @Autowired
@@ -38,8 +42,9 @@ public class TimeTableGeneratorController {
 
 
 
-    @GetMapping("/generate")
-    public void Solve() {
+    @GetMapping("/generate/{option}")
+    public void Solve(@PathVariable String option) {
+        timeSlotClasseRepository.delete();
         SolverFactory<TimeTable> solverFactory = SolverFactory.create(new SolverConfig()
                 .withSolutionClass(TimeTable.class)
                 .withEntityClasses(Module.class)
@@ -57,7 +62,7 @@ public class TimeTableGeneratorController {
 
         // Visualize the solution
         printTimetable(solution);
-        saveResult(solution);
+        saveResult(solution,option);
         printTimetableDetails(solution);
 
 
@@ -67,35 +72,35 @@ public class TimeTableGeneratorController {
     public  TimeTable generateDemoData() {
         List<Timeslot> timeslotList = new ArrayList<>(10);
         timeslotList.add(new Timeslot(DayOfWeek.MONDAY, LocalTime.of(8, 30), LocalTime.of(9, 30)));
-        timeslotList.add(new Timeslot(DayOfWeek.MONDAY, LocalTime.of(9, 30), LocalTime.of(10, 30)));
-        timeslotList.add(new Timeslot(DayOfWeek.MONDAY, LocalTime.of(10, 30), LocalTime.of(11, 30)));
+        timeslotList.add(new Timeslot(DayOfWeek.MONDAY, LocalTime.of(10, 30), LocalTime.of(10, 30)));
+        timeslotList.add(new Timeslot(DayOfWeek.MONDAY, LocalTime.of(12, 30), LocalTime.of(11, 30)));
         timeslotList.add(new Timeslot(DayOfWeek.MONDAY, LocalTime.of(13, 30), LocalTime.of(14, 30)));
-        timeslotList.add(new Timeslot(DayOfWeek.MONDAY, LocalTime.of(14, 30), LocalTime.of(15, 30)));
+        timeslotList.add(new Timeslot(DayOfWeek.MONDAY, LocalTime.of(15, 30), LocalTime.of(15, 30)));
 
         timeslotList.add(new Timeslot(DayOfWeek.TUESDAY, LocalTime.of(8, 30), LocalTime.of(9, 30)));
-        timeslotList.add(new Timeslot(DayOfWeek.TUESDAY, LocalTime.of(9, 30), LocalTime.of(10, 30)));
-        timeslotList.add(new Timeslot(DayOfWeek.TUESDAY, LocalTime.of(10, 30), LocalTime.of(11, 30)));
+        timeslotList.add(new Timeslot(DayOfWeek.TUESDAY, LocalTime.of(10, 30), LocalTime.of(10, 30)));
+        timeslotList.add(new Timeslot(DayOfWeek.TUESDAY, LocalTime.of(12, 30), LocalTime.of(11, 30)));
         timeslotList.add(new Timeslot(DayOfWeek.TUESDAY, LocalTime.of(13, 30), LocalTime.of(14, 30)));
-        timeslotList.add(new Timeslot(DayOfWeek.TUESDAY, LocalTime.of(14, 30), LocalTime.of(15, 30)));
+        timeslotList.add(new Timeslot(DayOfWeek.TUESDAY, LocalTime.of(15, 30), LocalTime.of(15, 30)));
 
 
         timeslotList.add(new Timeslot(DayOfWeek.WEDNESDAY, LocalTime.of(8, 30), LocalTime.of(9, 30)));
-        timeslotList.add(new Timeslot(DayOfWeek.WEDNESDAY, LocalTime.of(9, 30), LocalTime.of(10, 30)));
-        timeslotList.add(new Timeslot(DayOfWeek.WEDNESDAY, LocalTime.of(10, 30), LocalTime.of(11, 30)));
+        timeslotList.add(new Timeslot(DayOfWeek.WEDNESDAY, LocalTime.of(10, 30), LocalTime.of(10, 30)));
+        timeslotList.add(new Timeslot(DayOfWeek.WEDNESDAY, LocalTime.of(12, 30), LocalTime.of(11, 30)));
         timeslotList.add(new Timeslot(DayOfWeek.WEDNESDAY, LocalTime.of(13, 30), LocalTime.of(14, 30)));
-        timeslotList.add(new Timeslot(DayOfWeek.WEDNESDAY, LocalTime.of(14, 30), LocalTime.of(15, 30)));
+        timeslotList.add(new Timeslot(DayOfWeek.WEDNESDAY, LocalTime.of(15, 30), LocalTime.of(15, 30)));
 
         timeslotList.add(new Timeslot(DayOfWeek.THURSDAY, LocalTime.of(8, 30), LocalTime.of(9, 30)));
-        timeslotList.add(new Timeslot(DayOfWeek.THURSDAY, LocalTime.of(9, 30), LocalTime.of(10, 30)));
-        timeslotList.add(new Timeslot(DayOfWeek.THURSDAY, LocalTime.of(10, 30), LocalTime.of(11, 30)));
+        timeslotList.add(new Timeslot(DayOfWeek.THURSDAY, LocalTime.of(10, 30), LocalTime.of(10, 30)));
+        timeslotList.add(new Timeslot(DayOfWeek.THURSDAY, LocalTime.of(12, 30), LocalTime.of(11, 30)));
         timeslotList.add(new Timeslot(DayOfWeek.THURSDAY, LocalTime.of(13, 30), LocalTime.of(14, 30)));
-        timeslotList.add(new Timeslot(DayOfWeek.THURSDAY, LocalTime.of(14, 30), LocalTime.of(15, 30)));
+        timeslotList.add(new Timeslot(DayOfWeek.THURSDAY, LocalTime.of(15, 30), LocalTime.of(15, 30)));
 
         timeslotList.add(new Timeslot(DayOfWeek.FRIDAY, LocalTime.of(8, 30), LocalTime.of(9, 30)));
-        timeslotList.add(new Timeslot(DayOfWeek.FRIDAY, LocalTime.of(9, 30), LocalTime.of(10, 30)));
-        timeslotList.add(new Timeslot(DayOfWeek.FRIDAY, LocalTime.of(10, 30), LocalTime.of(11, 30)));
+        timeslotList.add(new Timeslot(DayOfWeek.FRIDAY, LocalTime.of(10, 30), LocalTime.of(10, 30)));
+        timeslotList.add(new Timeslot(DayOfWeek.FRIDAY, LocalTime.of(12, 30), LocalTime.of(11, 30)));
         timeslotList.add(new Timeslot(DayOfWeek.FRIDAY, LocalTime.of(14, 30), LocalTime.of(15, 30)));
-        timeslotList.add(new Timeslot(DayOfWeek.FRIDAY, LocalTime.of(15, 30), LocalTime.of(16, 30)));
+        timeslotList.add(new Timeslot(DayOfWeek.FRIDAY, LocalTime.of(16, 30), LocalTime.of(16, 30)));
 
 
         List<Salle> salleList=iSalleService.getSalles();
@@ -255,74 +260,116 @@ public class TimeTableGeneratorController {
     }*/
 
 
-    private void saveResult(TimeTable timeTable) {
+    private void saveResult(TimeTable timeTable, String option) {
         List<Module> moduleList = timeTable.getModuleList();
 
+        moduleList = moduleList.stream()
+                .filter(module -> module.getSemestre().equals("S"+option))
+                .collect(Collectors.toList());
+
+
+        int max = 0;
+        for (Module module : moduleList){
+            if(max <= module.getNbrTP()+module.getNbrTD()){
+                max = module.getNbrTP()+module.getNbrTD();
+            }
+        }
         for (Module module : moduleList) {
+            int nnbrtotal = module.getNbrEvaluation()+module.getNbrTD()+module.getNbrTD()+module.getVolumeHoraireOnRemote()+module.getVolumeHoraireOnsite();
+            int inc = 0;
             Timeslot timeslot = module.getTimeslot();
             Salle salle = module.getSalle();
             Enseignant enseignant = module.getEnseignant();
             Classe classe = module.getClasse();
+            int eval = module.getNbrEvaluation();
 
             if (timeslot != null && salle != null && enseignant != null && classe != null) {
                 int totalSessions = module.getVolumeHoraireOnRemote()+module.getVolumeHoraireOnsite()+
                         module.getNbrTP()+module.getNbrTD()+module.getNbrEvaluation();
                 String dayOfWeek = timeslot.getDayOfWeek().toString();
-                List<String> dates = generateDatesForDayOfWeek(dayOfWeek,totalSessions);
+                System.out.println("the module :"+module.getLibelle());
+                List<String> dates = generateDatesForDayOfWeek(dayOfWeek,totalSessions,option);
                 boolean t = false;
-                int inc = 0;
+
+                int ddd = nnbrtotal-module.getNbrEvaluation();
+                int d =0;
                 for (String formattedDate : dates) {
+                    d++;
+                    System.out.println("Debug: inc=" + inc + ", eval=" + eval + ", nnbrtotal=" + nnbrtotal);
+
+                    if (totalSessions <= 0 || nnbrtotal <= 0) {
+                        break;  // Break the loop if the total sessions are exhausted or nnbrtotal is exhausted
+                    }
                     TimeSlotClasse timeSlotClasse = new TimeSlotClasse();
                     timeSlotClasse.setDay(formattedDate + "T" + timeslot.getStartTime().toString() + ":00");
                     timeSlotClasse.setStartTime(timeslot.getStartTime().toString() + ":00");
                     timeSlotClasse.setEndTime(timeslot.getEndTime().toString() + ":00");
                     timeSlotClasse.setModule(module);
                     timeSlotClasse.setSalle(salle.toString());
-                    if(t){
-                        if(inc >= module.getNbrTP()+module.getNbrTD()){
-                            timeSlotClasse.setColor("#F9F3CC");
-                        }else {
+                    if (t && d<ddd) {
+                        if (inc <= module.getNbrTP() + module.getNbrTD()) {
                             timeSlotClasse.setColor("#8EACCD");
                         }
                         inc++;
                     }
-                    iTimeSlotClasseService.addTimeSlotClasse(timeSlotClasse);
-                    System.out.print("Data saved for date: " + formattedDate);
-                    // Decrease the total number of sessions until it reaches 0
-                    t = !t;
-                    if(inc == module.getNbrTP()+module.getNbrTD()+module.getNbrEvaluation()){
-                        t = false;
+                    if (d>=ddd){
+                        timeSlotClasse.setColor("#CD8D7A");
                     }
 
-                    if (totalSessions== 0) {
-                        break; // Break the loop if the total sessions are exhausted
+                    if(nnbrtotal ==0){
+                        break;
+                    }
+                    iTimeSlotClasseService.addTimeSlotClasse(timeSlotClasse);
+                    nnbrtotal--;
+                    System.out.print("Data saved for date: " + formattedDate);
+                    // Decrease the total number of sessions until it reaches 0
+                    if (inc < module.getNbrTP() + module.getNbrTD()) {
+                        t = !t;
+                    }
+                    if (inc == totalSessions) {
+                        t = false;
                     }
                 }
             }
         }
     }
 
-    public List<String> generateDatesForDayOfWeek(String dayOfWeek, int totalSessions) {
+    public List<String> generateDatesForDayOfWeek(String dayOfWeek, int totalSessions,String option) {
         System.out.println("-----------------------");
         System.out.println(totalSessions);
         List<String> dates = new ArrayList<>();
-
-        // Define the start and end dates (September 1, 2023 to December 31, 2023)
         LocalDate startDate = LocalDate.of(2023, 9, 1);
         LocalDate endDate = LocalDate.of(2023, 12, 31);
+
+        if(option.equals('1')) {
+            // Define the start and end dates (September 1, 2023 to December 31, 2023)
+            startDate = LocalDate.of(2023, 9, 1);
+            endDate = LocalDate.of(2023, 12, 31);
+        }else{
+            startDate = LocalDate.of(2024, 2, 1);
+            endDate = LocalDate.of(2024,6 , 15);
+        }
+
+        // Counter variable to track the number of sessions generated
+        int sessionsGenerated = 0;
 
         // Loop through the dates and add those matching the given day of the week
         for (LocalDate date = startDate; date.isBefore(endDate); date = date.plusDays(1)) {
             if (date.getDayOfWeek() == DayOfWeek.valueOf(dayOfWeek)) {
+                if (dates.size() >= totalSessions) {
+                    return dates;
+                }
                 String formattedDate = date.format(DateTimeFormatter.ISO_LOCAL_DATE);
                 dates.add(formattedDate);
 
+                // Increment the sessions counter
+                sessionsGenerated++;
+
                 // Break the loop if the total sessions are exhausted
-                if (dates.size() == totalSessions) {
-                    break;
-                }
+
             }
         }
+        System.out.println("the dates :"+dates.size()+" vs "+totalSessions);
 
         return dates;
     }
@@ -331,8 +378,13 @@ public class TimeTableGeneratorController {
 
 
 
+
     @GetMapping("/{id}")
     public List<TimeSlotClasse> getAllFilieres(@PathVariable Long id) {
         return iTimeSlotClasseService.getTimeSlots(id);
+    }
+    @GetMapping("/prof/{id}")
+    public List<TimeSlotClasse> getAllByProf(@PathVariable Long id) {
+        return iTimeSlotClasseService.getTimeSlotsbyprof(id);
     }
 }

@@ -37,6 +37,7 @@ public class Module {
     private Filiere filiere;
     private String semestre;
     private boolean edited;
+    private String mode;
 
 
 
