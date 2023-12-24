@@ -25,6 +25,11 @@ public class ITimeSlotClasseServiceImpl implements ITimeSlotClasseService {
     }
 
     @Override
+    public List<TimeSlotClasse> getTimeSlotsbyprof(Long id) {
+        return timeSlotClasseRepository.getTimeSlotClasseByEnseignant(id);
+    }
+
+    @Override
     public TimeSlotClasse addTimeSlotClasse(TimeSlotClasse timeSlotClasse) {
         return timeSlotClasseRepository.save(timeSlotClasse);
     }

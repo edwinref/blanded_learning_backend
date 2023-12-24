@@ -10,6 +10,8 @@ import java.util.List;
 public interface ITimeSlotClasseService {
     List<TimeSlotClasse> getTimeSlots(Long id);
 
+    List<TimeSlotClasse> getTimeSlotsbyprof(Long id);
+
     TimeSlotClasse addTimeSlotClasse(TimeSlotClasse timeSlotClasse);
 
 }
