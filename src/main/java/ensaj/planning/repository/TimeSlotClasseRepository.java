@@ -24,5 +24,8 @@ public interface TimeSlotClasseRepository extends JpaRepository<TimeSlotClasse, 
     @Transactional
     @Query(value = "TRUNCATE TABLE timeslot_module_salle", nativeQuery = true)
     void delete();
+
+    List<TimeSlotClasse> findByModule_Id(Long moduleId);
+
 }
 
