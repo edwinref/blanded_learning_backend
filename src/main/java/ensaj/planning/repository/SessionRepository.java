@@ -19,4 +19,7 @@ public interface SessionRepository extends JpaRepository<Session, Long> {
     @Transactional
     @Query(value = "TRUNCATE TABLE Session", nativeQuery = true)
     void delete();
+
+    List<Session> findByModule_Id(Long moduleId);
+
 }

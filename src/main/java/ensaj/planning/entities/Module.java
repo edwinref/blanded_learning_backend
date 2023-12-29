@@ -40,7 +40,6 @@ public class Module {
     private String mode;
 
 
-
     @Transient
     @PlanningVariable
     private Timeslot timeslot;

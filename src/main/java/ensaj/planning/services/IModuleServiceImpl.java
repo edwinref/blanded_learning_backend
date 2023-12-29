@@ -4,10 +4,11 @@ import ensaj.planning.entities.*;
 import ensaj.planning.entities.Module;
 import ensaj.planning.repository.*;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @AllArgsConstructor
@@ -31,6 +32,11 @@ public class IModuleServiceImpl implements IModuleService {
         return moduleRepository.getModulesByClasse(id);
     }
 
+
+    @Override
+    public Page<Module> getModulesS(Pageable pageable) {
+        return moduleRepository.findAll(pageable);
+    }
 
     //reda type module
     @Override
@@ -70,16 +76,7 @@ public class IModuleServiceImpl implements IModuleService {
         return moduleRepository.save(module);
     }
 
-    @Override
-    public String deleteModule(Long id) {
-        try {
-            getModuleById(id);
-            moduleRepository.deleteById(id);
-            return "L'opération est bien effectuée";
-        } catch (Exception e) {
-            return e.getMessage();
-        }
-    }
+
 
     @Override
     public Module getModuleById(Long id) {
@@ -97,5 +94,49 @@ public class IModuleServiceImpl implements IModuleService {
     @Override
     public List<Module> getModuleByEnseignant(Enseignant enseignant) {
         return moduleRepository.getModulesByEnseignant(enseignant);
+    }
+
+    private TimeSlotClasseRepository timeSlotClasseRepository;
+    private SessionRepository sessionRepository;
+
+
+    @Override
+    public Page<Module> searchModule(String keyword,  Pageable pageable) {
+        return moduleRepository.searchModule(keyword, pageable);
+    }
+
+    @Override
+    public String deleteModule(Long id) {
+        try {
+            Module moduleToDelete = moduleRepository.findById(id)
+                    .orElseThrow(() -> new RuntimeException("Ce module n'existe pas."));
+
+            // Fetch TimeSlotClasse entities related to the Module
+            List<TimeSlotClasse> timeSlotClasseList = timeSlotClasseRepository.findByModule_Id(id);
+
+            // Remove the association from each TimeSlotClasse entity
+            for (TimeSlotClasse timeSlotClasse : timeSlotClasseList) {
+                timeSlotClasse.setModule(null);
+                // Optionally, you might want to delete these entities if necessary
+                timeSlotClasseRepository.delete(timeSlotClasse);
+            }
+
+            // Fetch Session entities related to the Module
+            List<Session> sessionsRelatedToModule = sessionRepository.findByModule_Id(id);
+
+            // Handle sessions related to the Module
+            for (Session session : sessionsRelatedToModule) {
+                // Remove or update the association in the Session entity
+                session.setModule(null); // Or update the reference to another Module if required
+                // Optionally, you might want to delete these sessions if necessary
+                sessionRepository.delete(session);
+            }
+
+            // Delete the Module
+            moduleRepository.delete(moduleToDelete);
+            return "L'opération est bien effectuée";
+        } catch (Exception e) {
+            return e.getMessage();
+        }
     }
 }
