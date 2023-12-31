@@ -76,6 +76,11 @@ public class IModuleServiceImpl implements IModuleService {
         return moduleRepository.save(module);
     }
 
+    @Override
+    public Module saveModule(Module module) {
+        return moduleRepository.save(module);
+    }
+
 
 
     @Override

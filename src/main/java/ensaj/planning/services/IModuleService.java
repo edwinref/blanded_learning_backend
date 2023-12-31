@@ -21,6 +21,7 @@ public interface IModuleService {
     String getTypeModule(Long id, Long idGroupe);
 
     Module addModule(Module module,Long classeId,Long filiereId);
+    Module saveModule(Module module);
 
     String deleteModule(Long id);
 

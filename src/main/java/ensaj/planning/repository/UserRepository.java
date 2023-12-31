@@ -15,6 +15,10 @@ import java.util.List;
 public interface UserRepository extends JpaRepository<Person, Long> {
 
     @Query("SELECT u FROM Person u WHERE u.Role = ?1")
+    Person findpersone(String role);
+
+
+    @Query("SELECT u FROM Person u WHERE u.Role = ?1")
     Page<Enseignant> findUsersByRole(String role, Pageable pageable);
     @Query("SELECT u FROM Person u WHERE u.Role = ?1")
     Page<Etudiant> findUsersByRoles(String role, Pageable pageable);

@@ -71,6 +71,20 @@ public class ModuleController {
         return moduleService.addModule(module, classeId, filiereId);
     }
 
+    @PostMapping("/save")
+    public Module saveModule(@RequestBody Module module) {
+        // Check the volumes to determine the mode
+        if (module.getVolumeHoraireOnsite() == 0) {
+            module.setMode("Remote");
+        } else if (module.getVolumeHoraireOnRemote() == 0) {
+            module.setMode("On Site");
+        } else {
+            module.setMode("Hybride");
+        }
+
+        return moduleService.saveModule(module);
+    }
+
     @GetMapping("/classe/{id}")
     public List<Module> getModuleByClasse(@PathVariable Long id) {
         return moduleService.getModuleByClasse(id);
