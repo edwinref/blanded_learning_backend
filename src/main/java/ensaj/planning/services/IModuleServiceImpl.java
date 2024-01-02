@@ -71,7 +71,7 @@ public class IModuleServiceImpl implements IModuleService {
         Classe classe= classeRepository.findById(classeId).orElse(null);
         Filiere filiere = filiereRepository.findById(filiereId).orElse(null);
         module.setClasse(classe);
-        module.setFiliere(filiere   );
+        module.setFiliere(filiere);
 
         return moduleRepository.save(module);
     }
